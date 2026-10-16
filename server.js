@@ -9,7 +9,7 @@ let lessonsArray = [
         subject: 'Math',
         location: 'Middlesex University, Hendon, Room C105',
         time: 'Wednesdays 3:00 PM - 4:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -23,7 +23,7 @@ let lessonsArray = [
         subject: 'Science',
         location: 'Middlesex University, Hendon, Room C106',
         time: 'Thursdays 3:00 PM - 4:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -37,7 +37,7 @@ let lessonsArray = [
         subject: 'English',
         location: 'Middlesex University, Hendon, Room C107',
         time: 'Fridays 3:00 PM - 4:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -51,7 +51,7 @@ let lessonsArray = [
         subject: 'History',
         location: 'Middlesex University, Hendon, Room C108',
         time: 'Mondays 3:00 PM - 4:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -65,7 +65,7 @@ let lessonsArray = [
         subject: 'Art',
         location: 'Middlesex University, Hendon, Room C109',
         time: 'Tuesdays 2:00 PM - 3:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -79,7 +79,7 @@ let lessonsArray = [
         subject: 'Music',
         location: 'Middlesex University, Hendon, Room C110',
         time: 'Wednesdays 3:00 PM - 4:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -93,7 +93,7 @@ let lessonsArray = [
         subject: 'Physical Education',
         location: 'Middlesex University, Hendon, Room C111',
         time: 'Thursdays 4:00 PM - 5:00 PM',
-        price: '£15 per session',
+        price: 15,
         availability: 5,
         showDetail: false,
         photo: {
@@ -104,10 +104,10 @@ let lessonsArray = [
     {
         lessonTitle: 'Advanced Math Lesson',
         lessonId: 1008,
-        subject: 'Advanced Math',
+        subject: 'Math',
         location: 'Middlesex University, Hendon, Room C112',
         time: 'Fridays 5:00 PM - 6:30 PM',
-        price: '£20 per session',
+        price: 20,
         availability: 5,
         showDetail: false,
         photo: {
@@ -118,15 +118,57 @@ let lessonsArray = [
     {
         lessonTitle: 'Advanced Science Lesson',
         lessonId: 1009,
-        subject: 'Advanced Science',
+        subject: 'Science',
         location: 'Middlesex University, Hendon, Room C113',
         time: 'Mondays 4:00 PM - 5:30 PM',
-        price: '£20 per session',
+        price: 20,
         availability: 5,
         showDetail: false,
         photo: {
             image: 'images/advanced-science.jpg',
             alt: 'Advanced Science Lesson'
+        }
+    },
+    {
+        lessonTitle: 'Norwegian Lesson',
+        lessonId: 1010,
+        subject: 'Foreign Languages',
+        location: 'Middlesex University, Hendon, Room C201',
+        time: 'Tuesdays 4:30 PM - 5:30 PM',
+        price: 25,
+        availability: 5,
+        showDetail: false,
+        photo: {
+            image: 'images/norwegian.jpg',
+            alt: 'Norwegian Lesson'
+        }
+    },
+    {
+        lessonTitle: 'Italian Lesson',
+        lessonId: 1011,
+        subject: 'Foreign Languages',
+        location: 'Middlesex University, Hendon, Room C202',
+        time: 'Wednesdays 4:30 PM - 5:30 PM',
+        price: 25,
+        availability: 5,
+        showDetail: false,
+        photo: {
+            image: 'images/italian.jpg',
+            alt: 'Italian Lesson'
+        }
+    },
+    {
+        lessonTitle: 'Spanish Lesson',
+        lessonId: 1012,
+        subject: 'Foreign Languages',
+        location: 'Middlesex University, Hendon, Room C203',
+        time: 'Fridays 5:00 PM - 6:00 PM',
+        price: 25,
+        availability: 5,
+        showDetail: false,
+        photo: {
+            image: 'images/spanish.jpg',
+            alt: 'Spanish Lesson'
         }
     }
 ];

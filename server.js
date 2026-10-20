@@ -1,8 +1,25 @@
-var express = require("express"); // requires Express module
+var express = require("express");
 var cors = require("cors");
+var path = require("path");
 
-// LessonsArray
-let lessonsArray = [
+
+// Calls the express function to start a new Express app
+var app = express();
+// Path where images are
+var publicPath = path.resolve(__dirname, "images");
+
+app.use(cors());
+app.use(express.json());
+
+app.use(function(request, response, next) {  // Logger middleware
+    console.log("Incoming: " + request.method + " to " + request.url);
+   next();
+});
+
+// returns all lesson data as json
+app.get("/lessons", function(request, response) {
+    // lessonsArray
+    let lessonsArray = [
     {
         lessonTitle: 'Math Lesson',
         lessonId: 1001,
@@ -171,17 +188,31 @@ let lessonsArray = [
             alt: 'Spanish Lesson'
         }
     }
-];
-
-
-// Calls the express function to start a new Express app
-var app = express();
-
-app.use(cors());
-
-app.use(function(request, response) {  // Middleware
-    console.log("In comes a request to: " + request.url);
+    ];
     response.json(lessonsArray);
+});
+
+// Sends static files from publicPath directory
+app.use("/images", express.static(publicPath));
+
+// Return error message if file is not found
+app.use("/images", function(request, response) {
+    response.status(404).send("Image not found!");
+});
+
+// Receives a new order and logs a summary
+app.post("/orders", function(request, response) {
+    var body = request.body;
+    console.log("Order received" 
+        + "\nFirst Name: " + body.firstName 
+        + "\nLast Name: " + body.lastName
+        + "\nPhone Number: " + body.phoneNumber);
+    response.json({message: "Order received!"});
+});
+
+// runs if an unrecognised request comes in to the server
+app.use(function(request, response, next) {
+    response.status(404).send({error: "Unrecognised request"});
 });
 
 app.listen(3000, function() {

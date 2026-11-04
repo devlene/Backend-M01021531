@@ -33,6 +33,33 @@ app.get("/lessons", async function(request, response) {
     response.send(results);
 });
 
+// Search box implementation
+// searched lessons across title, location, price and availability
+// GET /search?q=text
+app.get("/search", async function(request, response) {
+    const q = (request.query.q || "").trim();
+
+    //no search text: return all lessons in collection lessons
+    if (q === "") {
+        return response.json(await db.collection("lessons").find({}).toArray());
+    }
+
+    // escape special regex characters so they are treated as plain text
+    const safe = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+    const results = await db.collection("lessons").find({
+        $or: [
+            { lessonTitle: { $regex: safe, $options: "i" } },
+            { location: { $regex: safe, $options: "i" } },
+            // price and availability are numbers, so convert them to text first
+            { $expr: { $regexMatch: { input: { $toString: "$price" }, regex: safe} } },
+            { $expr: { $regexMatch: { input: { $toString: "$availability" }, regex: safe} } }
+        ]
+    }).toArray();
+
+    response.json(results);
+});
+
 // Sends static files from publicPath directory
 app.use("/images", express.static(publicPath));
 
@@ -47,7 +74,8 @@ app.post("/orders", function(request, response) {
     console.log("Order received" 
         + "\nFirst Name: " + body.firstName 
         + "\nLast Name: " + body.lastName
-        + "\nPhone Number: " + body.phoneNumber);
+        + "\nPhone Number: " + body.phoneNumber
+        + "\nLesson IDs: " + body.lessonIds);
     response.json({message: "Order received!"});
 });
 

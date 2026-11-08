@@ -4,7 +4,7 @@ var cors = require("cors");
 var path = require("path");
 
 // Connection setup to MongoDB
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 const uri = process.env.MONGODB_PREFIX +
 process.env.MONGODB_USERNAME + ":" +
 process.env.MONGODB_PASSWORD + 
@@ -33,6 +33,43 @@ app.get("/lessons", async function(request, response) {
     response.send(results);
 });
 
+// PUT /lessons/ route to update information about an existing lesson in database
+app.put("/lessons/:_id", async function(request, response) {
+
+    var body = request.body;
+    let collection = await db.collection("lessons");
+    let tempid = request.params._id;
+
+    const query = { _id: new ObjectId(tempid) };
+    const updates = {
+        $set: request.body
+    };
+     result = await collection.updateOne(query, updates);
+    response.send(result);
+    console.log(result);
+});
+
+// Sends static files from publicPath directory
+app.use("/images", express.static(publicPath));
+
+// Return error message if file is not found
+app.use("/images", function(request, response) {
+    response.status(404).send("Image not found!");
+});
+
+// Receives a new order and logs a summary
+app.post("/orders", async function(request, response) {
+    var body = request.body;
+    let collection = await db.collection("orders");
+    let result = await collection.insertOne(body);
+    console.log("Order received" 
+        + "\nFirst Name: " + body.firstName 
+        + "\nLast Name: " + body.lastName
+        + "\nPhone Number: " + body.phoneNumber
+        + "\nLesson IDs: " + body.lessonIds);
+    response.send(result);
+});
+
 // Search box implementation
 // searched lessons across title, location, price and availability
 // GET /search?q=text
@@ -58,25 +95,6 @@ app.get("/search", async function(request, response) {
     }).toArray();
 
     response.json(results);
-});
-
-// Sends static files from publicPath directory
-app.use("/images", express.static(publicPath));
-
-// Return error message if file is not found
-app.use("/images", function(request, response) {
-    response.status(404).send("Image not found!");
-});
-
-// Receives a new order and logs a summary
-app.post("/orders", function(request, response) {
-    var body = request.body;
-    console.log("Order received" 
-        + "\nFirst Name: " + body.firstName 
-        + "\nLast Name: " + body.lastName
-        + "\nPhone Number: " + body.phoneNumber
-        + "\nLesson IDs: " + body.lessonIds);
-    response.json({message: "Order received!"});
 });
 
 // runs if an unrecognised request comes in to the server

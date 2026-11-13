@@ -2,6 +2,7 @@ require("dotenv").config({ path: "./config.env" });
 var express = require("express");
 var cors = require("cors");
 var path = require("path");
+constport = process.env.PORT || 3000;
 
 // Connection setup to MongoDB
 const { MongoClient, ObjectId } = require("mongodb");
@@ -102,6 +103,6 @@ app.use(function(request, response, next) {
     response.status(404).send({error: "Unrecognised request"});
 });
 
-app.listen(3000, function() {
-    console.log("App started on port 3000");
+app.listen(constport, function() {
+    console.log("App started on port " + constport);
 });

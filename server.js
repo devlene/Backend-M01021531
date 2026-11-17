@@ -48,8 +48,7 @@ app.get("/lessons", async function(request, response) {
 });
 
 // PUT /lessons/:_id route to update information about an existing lesson in database
-// The lesson is identified by the MongoDB _id in the URL, and the fields to update come from the request body. 
-// The updated lesson is returned as JSON
+// The lesson is identified by the MongoDB _id in the URL, and the fields to update come from the request body
 app.put("/lessons/:_id", async function(request, response) {
 
     var body = request.body;
@@ -67,7 +66,7 @@ app.put("/lessons/:_id", async function(request, response) {
     };
 
     // Returns an update summary, which is sent back to the client and logged
-     result = await collection.updateOne(query, updates);
+    let result = await collection.updateOne(query, updates);
     response.send(result);
     console.log(result);
 });
@@ -97,6 +96,36 @@ app.post("/orders", async function(request, response) {
         + "\nPhone Number: " + body.phoneNumber
         + "\nLesson IDs: " + body.lessonIds);
     response.send(result);
+});
+
+// GET /enrolment/:lessonid
+// Returns the number of slots already purchased for a specific lesson
+app.get("/enrolment/:lessonid", async function(request, response) {
+    let collection = await db.collection("orders");
+
+    // URL parameters are always strings, but lessonIds are stored as numbers, 
+    // so convert the lessonid to a number for the query
+    let lessonid = Number(request.params.lessonid);
+
+    // Reject ids that are not valid numbers
+    if (Number.isNaN(lessonid)) {
+        return response.status(400).send({ error: "Lesson id must be a number"});
+    }
+
+    // Find all orders that contain the lesson id in their lessonIds array
+    let orders = await collection.find({ lessonIds: lessonid }).toArray();
+
+    // A lesson id can appear more than once in one order, so count every occurrence
+    let count = 0;
+    for (const order of orders) {
+        count += order.lessonIds.filter(function(id) {
+            return id === lessonid;
+        }).length;
+    }
+
+    // Log the number of enrolments for this lesson to the console
+    console.log("Enrolment for lesson " + lessonid + ": " + count);
+    response.json({ lessonid: lessonid, enrolment: count});
 });
 
 // Search box implementation

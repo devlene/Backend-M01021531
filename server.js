@@ -94,7 +94,8 @@ app.post("/orders", async function(request, response) {
         + "\nFirst Name: " + body.firstName 
         + "\nLast Name: " + body.lastName
         + "\nPhone Number: " + body.phoneNumber
-        + "\nLesson IDs: " + body.lessonIds);
+        + "\nLesson IDs: " + body.lessonIds
+        + "\nNumber of spaces: " + body.numberOfSpaces);
     response.send(result);
 });
 
